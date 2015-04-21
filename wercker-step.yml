@@ -1,0 +1,12 @@
+name: goveralls
+version: 1.0.0
+description: uploads go coverage to coveralls
+keywords:
+  - go
+  - golang
+  - coverage
+  - coveralls
+  - goveralls
+properties:
+  token:
+    type: string
