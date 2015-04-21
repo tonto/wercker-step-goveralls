@@ -37,12 +37,6 @@ done
 
 if [ "$err" -eq 0 ]; then
   goveralls -coverprofile=profile.cov -service=wercker.com -repotoken $WERCKER_GOVERALLS_TOKEN
-  echo "goveralls exit code: $?"
 else
   fail 'Coverage tests failed, skipping upload'
 fi
-
-echo "script exit code: $err"
-
-rm profile.cov
-exit $err
