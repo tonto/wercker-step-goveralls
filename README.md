@@ -33,6 +33,18 @@ token    | string |                         | Your Coveralls repository token.
 
 ## Changelog
 
+### 1.0.3
+
+- Simplified old cover tool check
+
+### 1.0.2
+
+- Removed manual exits on script end
+
+### 1.0.1
+
+- Debug release
+
 ### 1.0.0
 
 - Initial release
