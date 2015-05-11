@@ -7,7 +7,17 @@ fi
 
 GIT_BRANCH=$WERCKER_GIT_BRANCH
 
-if ! go get code.google.com/p/go.tools/cmd/cover; then
+version=$(go version)
+regex="(go[0-9].[0-9].[0-9])"
+if [[ $version =~ $regex ]]; then
+  version=${BASH_REMATCH[1]}
+else
+  fail 'Unable to determine Go version'
+fi
+
+if [[ "$version" < "go1.4.0" ]]; then
+  go get code.google.com/p/go.tools/cmd/cover
+else
   go get golang.org/x/tools/cmd/cover
 fi
 go get github.com/mattn/goveralls
@@ -26,7 +36,7 @@ for dir in $(find . -maxdepth 10 -not -path './.git*' -not -path '*/_*' -type d)
 done
 
 if [ "$err" -eq 0 ]; then
-  goveralls -coverprofile=profile.cov -service=wercker.com -repotoken=$WERCKER_GOVERALLS_TOKEN
+  goveralls -coverprofile=profile.cov -service=wercker.com -repotoken $WERCKER_GOVERALLS_TOKEN
 else
   fail 'Coverage tests failed, skipping upload'
 fi
