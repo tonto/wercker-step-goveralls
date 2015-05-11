@@ -33,6 +33,10 @@ token    | string |                         | Your Coveralls repository token.
 
 ## Changelog
 
+### 1.0.4
+
+- Reverted old cover tool check as the new one was far too slow
+
 ### 1.0.3
 
 - Simplified old cover tool check
