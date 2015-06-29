@@ -6,6 +6,9 @@ if [ ! -n "$WERCKER_GOVERALLS_TOKEN" ]; then
 fi
 
 GIT_BRANCH=$WERCKER_GIT_BRANCH
+if [ "$GIT_BRANCH" = "HEAD" ]; then
+  GIT_BRANCH=$(git show -s --pretty=%d HEAD | cut -d , -f 3 | sed 's/[) ]//g')
+fi
 
 version=$(go version)
 regex="(go[0-9].[0-9].[0-9])"

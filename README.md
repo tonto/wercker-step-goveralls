@@ -33,6 +33,10 @@ token    | string |                         | Your Coveralls repository token.
 
 ## Changelog
 
+### 1.1.0
+
+- Resolve branch name if build is run as a detached head.
+
 ### 1.0.4
 
 - Reverted old cover tool check as the new one was far too slow
