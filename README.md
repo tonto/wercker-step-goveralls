@@ -33,6 +33,10 @@ token    | string |                         | Your Coveralls repository token.
 
 ## Changelog
 
+### 1.1.2
+
+- Pass GIT_BRANCH variable to goveralls
+
 ### 1.1.1
 
 - Added debug messages that show the git branch used, the go version used and each directory checked.

@@ -6,10 +6,10 @@ if [ ! -n "$WERCKER_GOVERALLS_TOKEN" ]; then
 fi
 
 GIT_BRANCH=$WERCKER_GIT_BRANCH
-echo "Git branch: $GIT_BRANCH"
 if [ "$GIT_BRANCH" = "HEAD" ]; then
-  GIT_BRANCH=$(git show -s --pretty=%d HEAD | cut -d , -f 3 | sed 's/[) ]//g')
+  GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 fi
+echo "Git branch: $GIT_BRANCH"
 
 version=$(go version)
 regex="(go[0-9].[0-9].[0-9])"
@@ -31,8 +31,8 @@ echo "mode: count" > profile.cov
 err=0
 
 for dir in $(find . -maxdepth 10 -not -path './.git*' -not -path '*/_*' -type d); do
-  echo "Parsing directory: $dir"
   if ls $dir/*.go &> /dev/null; then
+    echo "Parsing directory: $dir"
     go test --covermode=count -coverprofile=profile.out $dir || err=1
     if [ -f profile.out ]; then
       cat profile.out | grep -v "mode: count" >> profile.cov
@@ -42,7 +42,7 @@ for dir in $(find . -maxdepth 10 -not -path './.git*' -not -path '*/_*' -type d)
 done
 
 if [ "$err" -eq 0 ]; then
-  goveralls -coverprofile=profile.cov -service=wercker.com -repotoken $WERCKER_GOVERALLS_TOKEN
+  GIT_BRANCH=$GIT_BRANCH goveralls -coverprofile=profile.cov -service=wercker -repotoken $WERCKER_GOVERALLS_TOKEN
 else
   fail 'Coverage tests failed, skipping upload'
 fi
