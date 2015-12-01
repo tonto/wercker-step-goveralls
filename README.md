@@ -33,6 +33,10 @@ token    | string |                         | Your Coveralls repository token.
 
 ## Changelog
 
+### 1.1.1
+
+- Added debug messages that show the git branch used, the go version used and each directory checked.
+
 ### 1.1.0
 
 - Resolve branch name if build is run as a detached head.
