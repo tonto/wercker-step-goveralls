@@ -6,6 +6,7 @@ if [ ! -n "$WERCKER_GOVERALLS_TOKEN" ]; then
 fi
 
 GIT_BRANCH=$WERCKER_GIT_BRANCH
+echo "Git branch: $GIT_BRANCH"
 if [ "$GIT_BRANCH" = "HEAD" ]; then
   GIT_BRANCH=$(git show -s --pretty=%d HEAD | cut -d , -f 3 | sed 's/[) ]//g')
 fi
@@ -18,6 +19,7 @@ else
   fail 'Unable to determine Go version'
 fi
 
+echo "Go version: $version"
 if [[ "$version" < "go1.4.0" ]]; then
   go get code.google.com/p/go.tools/cmd/cover
 else
@@ -29,6 +31,7 @@ echo "mode: count" > profile.cov
 err=0
 
 for dir in $(find . -maxdepth 10 -not -path './.git*' -not -path '*/_*' -type d); do
+  echo "Parsing directory: $dir"
   if ls $dir/*.go &> /dev/null; then
     go test --covermode=count -coverprofile=profile.out $dir || err=1
     if [ -f profile.out ]; then
